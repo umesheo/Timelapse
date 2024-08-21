@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onboarding/onboarding_page.dart';
+import 'package:lottie/lottie.dart';
+import 'onboarding_page.dart'; // Assuming this is the correct import path for the OnboardingPage and OnboardingPageModel classes
 
 void main() {
   runApp(MyApp());
@@ -17,30 +18,25 @@ class MyApp extends StatelessWidget {
       home: OnboardingPage(
         pages: [
           OnboardingPageModel(
-            title: 'Fast, Fluid and Secure',
-            description:
-                'Enjoy the best of the world in the palm of your hands.',
-            image: 'assets/image0.png',
+            title: 'Time Lapse',
+            description: 'Your memories, your progress.',
+            lottieUrl:
+                'https://lottie.host/3ea0b687-468d-4b91-9551-39ef18a24b02/aQqW9oJWvQ.json',
             bgColor: Colors.indigo,
           ),
           OnboardingPageModel(
-            title: 'Connect with your friends.',
-            description: 'Connect with your friends anytime anywhere.',
-            image: 'assets/image1.png',
+            title: 'Share Memories',
+            description: 'Share your memories with friends and family',
+            lottieUrl:
+                'https://lottie.host/582c1404-74c6-4ee1-81ac-801428886ca1/gG45VxD1QY.json', // Example URL, replace with actual
             bgColor: const Color(0xff1eb090),
           ),
           OnboardingPageModel(
-            title: 'Bookmark your favourites',
-            description:
-                'Bookmark your favourite quotes to read at a leisure time.',
-            image: 'assets/image2.png',
+            title: 'Try Now',
+            description: 'Try Now',
+            lottieUrl:
+                'https://lottie.host/e70841ae-cd63-4dce-86b5-d78a3c1816a0/34fyVYIA0N.json', // Example URL, replace with actual
             bgColor: const Color(0xfffeae4f),
-          ),
-          OnboardingPageModel(
-            title: 'Follow creators',
-            description: 'Follow your favourite creators to stay in the loop.',
-            image: 'assets/image3.png',
-            bgColor: Colors.purple,
           ),
         ],
       ),

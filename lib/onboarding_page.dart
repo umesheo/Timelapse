@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class OnboardingPageModel {
   final String title;
   final String description;
-  final String image;
+  final String? image;
+  final String? lottieUrl;
   final Color bgColor;
   final Color textColor;
 
-  OnboardingPageModel(
-      {required this.title,
-      required this.description,
-      required this.image,
-      this.bgColor = Colors.blue,
-      this.textColor = Colors.white});
+  OnboardingPageModel({
+    required this.title,
+    required this.description,
+    this.image,
+    this.lottieUrl,
+    this.bgColor = Colors.blue,
+    this.textColor = Colors.white,
+  });
 }
 
 class OnboardingPage extends StatefulWidget {
@@ -25,9 +29,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  // Store the currently visible page
   int _currentPage = 0;
-  // Define a controller for the pageview
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
@@ -40,12 +42,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
           child: Column(
             children: [
               Expanded(
-                // Pageview to render each page
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: widget.pages.length,
                   onPageChanged: (idx) {
-                    // Change current page when pageview changes
                     setState(() {
                       _currentPage = idx;
                     });
@@ -58,46 +58,54 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.all(32.0),
-                            child: Image.asset(
-                              _item.image,
-                            ),
+                            child: _item.lottieUrl != null
+                                ? Lottie.network(_item.lottieUrl!)
+                                : _item.image != null
+                                    ? Image.asset(_item.image!)
+                                    : Container(),
                           ),
                         ),
                         Expanded(
-                            flex: 1,
-                            child: Column(children: [
+                          flex: 1,
+                          child: Column(
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Text(_item.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: _item.textColor,
-                                        )),
+                                child: Text(
+                                  _item.title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: _item.textColor,
+                                        fontSize: 40,
+                                      ),
+                                ),
                               ),
                               Container(
                                 constraints: BoxConstraints(maxWidth: 280),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 24.0, vertical: 8.0),
-                                child: Text(_item.description,
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                          color: _item.textColor,
-                                        )),
-                              )
-                            ]))
+                                child: Text(
+                                  _item.description,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                        color: _item.textColor,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     );
                   },
                 ),
               ),
-
-              // Current page indicator
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.pages
@@ -114,21 +122,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ))
                     .toList(),
               ),
-
-              // Bottom buttons
               SizedBox(
                 height: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                        onPressed: () {
-                          // Handle Skipping onboarding page
-                        },
-                        child: Text(
-                          "Skip",
-                          style: TextStyle(color: Colors.white),
-                        )),
+                      onPressed: () {
+                        // Handle Skipping onboarding page
+                      },
+                      child: Text(
+                        "Skip",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         if (_currentPage == widget.pages.length - 1) {
@@ -139,16 +146,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               duration: const Duration(milliseconds: 250));
                         }
                       },
-                      child: Text(
-                        _currentPage == widget.pages.length - 1
-                            ? "Finish"
-                            : "Next",
-                        style: TextStyle(color: Colors.white),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 12.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Text(
+                          _currentPage == widget.pages.length - 1
+                              ? "Sign Up"
+                              : "Next",
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
